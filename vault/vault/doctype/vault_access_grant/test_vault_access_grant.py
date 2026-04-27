@@ -6,6 +6,9 @@ from vault.permissions import user_has_active_grant
 from vault.tests.utils import make_credential, make_group, make_user
 
 
+IGNORE_TEST_RECORD_DEPENDENCIES = ["User", "Employee", "Company", "Fiscal Year", "Vault Credential Entry"]
+
+
 class TestVaultAccessGrant(IntegrationTestCase):
     def setUp(self):
         make_user("vlt-gr-owner@test.local", "Vault Manager")

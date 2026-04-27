@@ -5,6 +5,9 @@ from frappe.utils.password import get_decrypted_password
 from vault.tests.utils import make_credential, make_group, make_user
 
 
+IGNORE_TEST_RECORD_DEPENDENCIES = ["User", "Employee", "Company", "Fiscal Year", "Vault Credential Group"]
+
+
 class TestVaultCredentialEntry(IntegrationTestCase):
     def setUp(self):
         self.owner = make_user("vlt-ce-owner@test.local", "Vault Manager")

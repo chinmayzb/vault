@@ -5,6 +5,9 @@ from vault.audit import log_access
 from vault.tests.utils import make_credential, make_group, make_user
 
 
+IGNORE_TEST_RECORD_DEPENDENCIES = ["User", "Employee", "Company", "Fiscal Year", "Vault Credential Entry"]
+
+
 class TestVaultAccessLog(IntegrationTestCase):
     def setUp(self):
         make_user("vlt-log-owner@test.local", "Vault Manager")

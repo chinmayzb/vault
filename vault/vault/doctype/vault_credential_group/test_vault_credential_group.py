@@ -4,6 +4,9 @@ from frappe.tests import IntegrationTestCase
 from vault.tests.utils import make_user
 
 
+IGNORE_TEST_RECORD_DEPENDENCIES = ["User", "Employee", "Company", "Fiscal Year"]
+
+
 class TestVaultCredentialGroup(IntegrationTestCase):
     def test_create_basic_group(self):
         make_user("vlt-owner@test.local", "Vault Manager")

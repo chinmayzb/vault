@@ -16,27 +16,21 @@ class VaultCredentialEntry(Document):
         self.last_updated_by = frappe.session.user
 
     def before_save(self):
-        old = self.get_doc_before_save()
-        self._old_password_hash = None
         self._diff_summary = []
-        if old:
-            for field in TRACKED_FIELDS:
-                old_val = old.get(field)
-                new_val = self.get(field)
-                if field == "password":
-                    old_pw = self.get_db_value("password") if hasattr(self, "get_db_value") else None
-                    try:
-                        old_pw = frappe.utils.password.get_decrypted_password(
-                            self.doctype, self.name, "password", raise_exception=False
-                        )
-                    except Exception:
-                        old_pw = None
-                    new_pw = self.password or ""
-                    if (old_pw or "") != (new_pw or ""):
-                        self._old_password_hash = hash_password(old_pw or "")
-                        self._diff_summary.append("password changed")
-                elif (old_val or "") != (new_val or ""):
-                    self._diff_summary.append(f"{field}: {old_val!r} → {new_val!r}")
+        self._old_password_hash = None
+        if self.is_new():
+            return
+        for field in TRACKED_FIELDS:
+            if not self.has_value_changed(field):
+                continue
+            if field == "password":
+                old_pw = frappe.utils.password.get_decrypted_password(
+                    self.doctype, self.name, "password", raise_exception=False
+                )
+                self._old_password_hash = hash_password(old_pw or "")
+                self._diff_summary.append("password changed")
+            else:
+                self._diff_summary.append(f"{field} updated")
 
     def after_insert(self):
         _create_version(self, "v1 — initial save")
@@ -60,7 +54,8 @@ class VaultCredentialEntry(Document):
 
 
 def _create_version(doc, summary: str, password_hash: str = ""):
-    next_no = (doc.version_count or 0) + 1
+    current = frappe.db.get_value(doc.doctype, doc.name, "version_count") or 0
+    next_no = int(current) + 1
     frappe.get_doc(
         {
             "doctype": "Vault Credential Version",
@@ -72,5 +67,6 @@ def _create_version(doc, summary: str, password_hash: str = ""):
         }
     ).insert(ignore_permissions=True)
     frappe.db.set_value(doc.doctype, doc.name, "version_count", next_no, update_modified=False)
+    doc.version_count = next_no
 
 
