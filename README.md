@@ -1,4 +1,4 @@
-# Vault — Credentials Manager for Frappe
+# Frappe Vault — Credentials Manager
 
 > A first-class, encrypted credentials manager built natively on the Frappe Framework. Store, share, and audit portal credentials across your organisation — without ever leaving your Frappe desk.
 
