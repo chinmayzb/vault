@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "autoname": "field:tag_name",
+ "creation": "2026-04-27 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tag_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "tag_name",
+   "fieldtype": "Data",
+   "label": "Tag Name",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-04-27 00:00:00",
+ "modified_by": "Administrator",
+ "module": "Vault",
+ "name": "Vault Tag",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Vault Admin"
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Vault Manager"
+  },
+  {
+   "read": 1,
+   "role": "Vault Member"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "track_changes": 0
+}
