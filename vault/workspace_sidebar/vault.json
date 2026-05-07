@@ -191,6 +191,24 @@
    "parenttype": "Workspace Sidebar",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "docstatus": 0,
+   "doctype": "Workspace Sidebar Item",
+   "icon": "users",
+   "idx": 12,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "User Access Manager",
+   "link_to": "vault-user-access",
+   "link_type": "Page",
+   "parent": "Vault",
+   "parentfield": "items",
+   "parenttype": "Workspace Sidebar",
+   "show_arrow": 0,
+   "type": "Link"
   }
  ],
  "modified": "2026-04-27 00:00:00",
