@@ -4,7 +4,6 @@
 
 - Frappe Framework v15 or v16 (tested on v16.0.0-dev)
 - Python 3.10+
-- Bench CLI
 
 ## Frappe Cloud (Recommended)
 
@@ -16,14 +15,15 @@ Vault is published on the Frappe Cloud Marketplace. From your site dashboard:
 
 That's it — Frappe Cloud handles the install, restart, and migrations for you.
 
-## Self-Hosted Bench
+## Self-Hosted
 
-From the root of your bench directory:
+Use the standard Frappe app workflow on your bench:
 
-```
-bench get-app https://github.com/chinmayzb/Frappe-vault --branch main
-bench --site <your-site> install-app vault
-```
+1. Fetch this app into your bench from `https://github.com/chinmayzb/Frappe-vault` (branch `main`).
+2. Install it onto the site you want to use it on.
+3. Run a migration on that site.
+
+Refer to the [Frappe Framework documentation](https://docs.frappe.io/framework/user/en/installation) for the exact CLI workflow used by your bench version.
 
 The install creates the `Vault Admin`, `Vault Manager`, and `Vault Member` roles automatically.
 
@@ -37,17 +37,4 @@ The install creates the `Vault Admin`, `Vault Manager`, and `Vault Member` roles
 
 ## Running Tests
 
-After installation, from your bench directory:
-
-```
-bench --site <site> run-tests --app vault
-```
-
-## Upgrading
-
-```
-bench update --apps vault
-bench --site <your-site> migrate
-```
-
-Migrations are idempotent — safe to re-run.
+The app ships with 23 integration tests. Use the standard Frappe test runner against your site to execute them. Migrations are idempotent — safe to re-run.
