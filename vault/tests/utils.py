@@ -41,7 +41,7 @@ def make_group(name: str, owner_user: str, members=None):
         }
     )
     for m in members or []:
-        doc.append("members", {"user": m, "access_level": "Read"})
+        doc.append("members", {"user": m, "access_level": "View"})
     doc.insert(ignore_permissions=True)
     return doc
 

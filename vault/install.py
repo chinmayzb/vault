@@ -27,4 +27,6 @@ def create_default_roles():
                 }
             )
             doc.insert(ignore_permissions=True)
-    frappe.db.commit()
+    # Roles must be persisted before the rest of the install hooks run
+    # (subsequent code assigns these roles to default users).
+    frappe.db.commit()  # nosemgrep

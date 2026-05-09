@@ -6,7 +6,7 @@ app_email = "chinmaybhatk@gmail.com"
 app_license = "MIT"
 app_icon = "octicon octicon-lock"
 app_color = "#1a1a1a"
-required_apps = ["frappe"]
+required_apps = []
 
 # DocType lifecycle methods are defined on the Document classes themselves.
 doc_events = {}

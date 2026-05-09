@@ -1,2 +1,0 @@
-# frappe -- Installed and managed by bench.
-cryptography>=41.0.0

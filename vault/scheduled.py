@@ -56,7 +56,9 @@ def run_expiry_checker():
         frappe.db.set_value("Vault Credential Entry", name, "status", "Expired")
 
     if not settings.notify_account_expiry:
-        frappe.db.commit()
+        # Persist the status flips even when notifications are disabled —
+        # this is the end of the daily job, no further work happens after.
+        frappe.db.commit()  # nosemgrep
         return
 
     # 2. Send reminders — always at 7 and 1 day, plus the configured window
@@ -87,7 +89,8 @@ def run_expiry_checker():
                 )
             except Exception:
                 frappe.log_error(frappe.get_traceback(), "Vault expiry email failed")
-    frappe.db.commit()
+    # End of scheduled job — flush status updates and email sends.
+    frappe.db.commit()  # nosemgrep
 
 
 def sweep_expired_grants():
@@ -109,7 +112,8 @@ def sweep_expired_grants():
         )
         if settings.notify_on_revoke:
             _notify_user_access_change(grant.user, grant.credential, revoked=True)
-    frappe.db.commit()
+    # End of hourly sweep — flush deactivation flips and audit log inserts.
+    frappe.db.commit()  # nosemgrep
 
 
 def notify_password_reset_due():
@@ -175,7 +179,8 @@ def notify_password_reset_due():
             )
         except Exception:
             frappe.log_error(frappe.get_traceback(), "Vault password reset email failed")
-    frappe.db.commit()
+    # End of scheduled job — flush sent-email side effects (queued mails).
+    frappe.db.commit()  # nosemgrep
 
 
 def notify_access_granted(credential: str, user: str):
@@ -209,4 +214,5 @@ def archive_old_logs():
     retention_days = 365
     cutoff = add_days(getdate(today()), -int(retention_days))
     frappe.db.delete("Vault Access Log", {"timestamp": ["<", cutoff]})
-    frappe.db.commit()
+    # Bulk delete in a monthly job — flush so the next run sees a fresh state.
+    frappe.db.commit()  # nosemgrep

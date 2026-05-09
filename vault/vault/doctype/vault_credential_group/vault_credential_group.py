@@ -17,9 +17,11 @@ def _ensure_vault_roles(members):
 
 
 _ACCESS_ROLE = {
+    "View": "Vault Member",
+    "Edit": "Vault Manager",
+    # Legacy values still supported in old data until the migration patch runs
     "Read": "Vault Member",
     "Read + Reveal": "Vault Member",
-    "Edit": "Vault Manager",
 }
 
 

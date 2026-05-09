@@ -65,15 +65,10 @@ Request to reveal credential C by user U
 
 - Frappe Framework v15 or v16 (tested on v16.0.0-dev)
 - Python 3.10+
-- Bench CLI
 
-### Install
+### Installation
 
-```bash
-# From your bench directory
-bench get-app https://github.com/chinmayzb/vault --branch main
-bench --site <your-site> install-app vault
-```
+See [INSTALL.md](./INSTALL.md) for detailed setup instructions.
 
 ### First steps
 
@@ -129,7 +124,7 @@ POST /api/method/vault.api.revoke_access
 | `Vault Manager` | Create/manage groups and credentials; issue grants to members |
 | `Vault Member` | Read credentials they hold an active grant for; cannot create or edit |
 
-Roles are created automatically on `bench install-app vault`.
+Roles are created automatically when the app is installed on a site.
 
 ---
 
@@ -147,10 +142,7 @@ Roles are created automatically on `bench install-app vault`.
 
 ### Running tests
 
-```bash
-cd /path/to/frappe-bench
-bench --site <site> run-tests --app vault
-```
+See [INSTALL.md](./INSTALL.md#running-tests) for the test command.
 
 All 23 integration tests use `frappe.tests.IntegrationTestCase` with per-test database rollback. No fixtures are committed to the test database.
 
