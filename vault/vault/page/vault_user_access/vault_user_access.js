@@ -40,25 +40,38 @@ VaultUserAccessPage.prototype._make = function () {
 				"</div>"
 		);
 
+	var last_loaded = null;
+	var trigger_load = function () {
+		var val = field.get_value();
+		if (val && val !== last_loaded) {
+			last_loaded = val;
+			me._load(val);
+		} else if (!val) {
+			last_loaded = null;
+			me._clear();
+		}
+	};
+
 	var field = frappe.ui.form.make_control({
 		df: {
 			fieldtype: "Link",
 			fieldname: "user",
 			options: "User",
 			placeholder: __("Type a name or email…"),
+			// Frappe fires this AFTER Link validation succeeds — most reliable hook.
+			change: trigger_load,
 		},
 		parent: $(me.wrapper).find("#vua-user-field")[0],
 		render_input: true,
 	});
 	field.refresh();
 
-	field.$input.on("change", function () {
-		var val = field.get_value();
-		if (val) {
-			me._load(val);
-		} else {
-			me._clear();
-		}
+	// Belt-and-braces: listen on the underlying input too, so any of
+	// (autocomplete select, Tab/blur, Enter-without-selecting) all work.
+	field.$input.on("change awesomplete-selectcomplete", trigger_load);
+	field.$input.on("blur", function () {
+		// Give Frappe's Link validator a tick to settle before reading value.
+		setTimeout(trigger_load, 150);
 	});
 
 	this.field = field;
